@@ -19,7 +19,7 @@ Trabajo Práctico 1 \\
 
 \subsection{Modelo Lotka-Volterra}
 
-Este trabajo está orientado a comprender el {\bf Modelo de predadores y prezas de Lotka-Volterra}, descrito como el sistema de dos ecuaciones diferenciales ordinarias (ODEs):
+Este trabajo está orientado a comprender el {\bf Modelo de predadores y presas de Lotka-Volterra}, descrito como el sistema de dos ecuaciones diferenciales ordinarias (ODEs):
 
 \[ \dot{C}(t) = \alpha C(t) - \beta C(t) Z(t) \]
 \[ \dot{Z}(t) = - \gamma Z(t) + \delta C(t) Z(t) \]
@@ -66,7 +66,7 @@ Podemos considerar 4 diferentes estados:
         \node [block, below left =1.5cm and =3cm of decrecen] (crecen_p)
             {Crecen las presas};
         \node [block, below right =1.5cm and =-3cm of decrecen] (crecen_d)
-            {Decrecen los depredadores};
+            {Crecen los depredadores};
 %% paths
 \path[draw,->] 
     (decrecen) edge (crecen_p)
@@ -76,6 +76,8 @@ Podemos considerar 4 diferentes estados:
 ;
 \end{tikzpicture}
 \end{center}
+
+Podemos ver en este diagrama que aparentemente no hay equilibro entre ambas poblaciones, por el contrario, parece que podrían caer en un ciclo y no converger en ningún valor. Para comprobar esta afirmación, vamos a utilizar otras herramientas de análisis de ODEs.
 
 \section{Comprensión de los parámetros}
 
@@ -91,10 +93,10 @@ Los parámetros $\alpha$, $\beta$, $\gamma$ y $\delta$ del modelo de Lotka-Volte
 \pagebreak
 \section{Diagrama de fase}
 
-El diagrama de fase es otra herramienta que nos permite entender la relación entre las poblaciones. Vamos a aproximar las tasas de crecimiento de ambas poblaciones utilizando el algoritmo de Runge Kutta de 4to orden, utilizando distintos puntos iniciales para observar las tendencias en la relación. A su vez, vamos a mostrar en conjunto los vectores que indican la dirección:
+El diagrama de fase es otra herramienta que nos permite entender la relación entre las poblaciones. Vamos a aproximar las tasas de crecimiento de ambas poblaciones utilizando el algoritmo de Runge Kutta de 4to orden (RK4), utilizando distintos puntos iniciales para observar las tendencias en la relación. A su vez, vamos a mostrar en conjunto los vectores que indican la dirección:
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{../diagramas/DiagramaDeFases.png}
+  \includegraphics[width=\linewidth]{./diagramas/fases.png}
   \caption{Diagrama de Fase}
 \end{figure}
 
@@ -106,11 +108,11 @@ Podemos observar que todos siguen la dirección marcada por el campo de vectores
 \pagebreak
 \section{Evolución a través del tiempo}
 
-Buscamos una solución aproximada (nuevamente usando Runge-Kutta4) utilizando un punto inicial $(40, 9)$ y valores de $t$ en $(0, 200)$. El grafico resultante es:
+Buscamos una solución aproximada (nuevamente usando RK4) utilizando un punto inicial $(40, 9)$ y valores de $t$ en $(0, 200)$. El grafico resultante es:
 
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{../diagramas/Evolucion.png}
+  \includegraphics[width=\linewidth]{./diagramas/evolucion.png}
   \caption{Evolución}
 \end{figure}
 
