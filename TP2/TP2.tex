@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{float}
+\usetikzlibrary{arrows,positioning,shapes.geometric}
+\setlength{\headsep}{5pt}
+
+\title{%
+Redes Neuronales \\
+Análisis del modelo Integrate-and-Fire \\*[23pt]
+Trabajo Práctico 2 \\
+}
+\date{2020}
+\author{Igor Andruskiewitsch}
+
+\begin{document}
+    \maketitle
+
+\section{Introducción}
+
+\subsection{Modelo Integrate-and-Fire}
+
+Este trabajo está orientado a comprender el modelo {\bf Integrate-and-Fire }, que modela la evolución temporal del potencial de membrana $ V_m(t) $ al tiempo $ t $, entre el interior y el exterior de una neurona genérica. Este modelo es descrito como la siguiente ecuación diferencial ordinaria (ODE):
+
+\[ \dot{V_m}(t) = {1 \over \tau_m} (E_L - V_m(t) + R_m I_e(t)) \]
+
+Donde:
+
+\begin{itemize}
+    \item {$ E_L $ es el potencial en reposo (mV) }
+    \item {$ I_e(t) $ es la corriente eléctrica externa inyectada en el tiempo $ t $ (mV) }
+    \item {$ R_m $ es la resistencia en megaOhms ($ M\Omega $) }
+    \item {$ \tau_m $ es el tiempo característico de la membrana }
+\end{itemize}
+
+El desafío de este modelo recae en la corriente externa $ I_e(t) $, como esta función es desconocida, no podemos encontrar una solución analítica al problema. Aún así, podemos utilizar distintos métodos para aproximar el comportamiento de la neurona, que vamos a ver más adelante.
+
+\pagebreak
+
+\section{Resolución Analítica}
+
+Si consideramos la corriente externa como una constante $ I_e(t) = I_e $, podemos buscar una solución analítica a nuestro modelo. Además, vamos a graficar la solución para $ 0ms \leq t \leq 200ms $ con los siguientes valores para los parámetros:
+
+\[ V_m(t = 0) = E_L = -65mV, \qquad R = 10 M \Omega, \qquad V_{th} = -50 mV, \qquad \tau_m = 10ms \]
+
+Cabe aclarar que el valor de $ V_{th} $ no se va a considerar para este primer paso, ya que este valor marca el umbral para el cual nuestro $ I_e(t) $ afecta el potencial de la neurona. Como en este caso $ I_e(t) $ es constante, no tendremos que considerar este valor.
+
+Comenzando con la resolución, teniendo en cuenta que ahora $ I_e $ es una constante, podemos reescribir la ecuación de la siguiente forma:
+
+\[ \dot{V_m}(t) = A V_m(t) + B \]
+
+Donde:
+
+\[ A = { {- 1} \over \tau_m } \qquad B = { {R_m I_e + E_L} \over \tau_m } \]
+
+
+Ahora comenzamos a resolver esta ecuación:
+
+\[ V'(t) = A V(t) + B  \Rightarrow { V'(t) \over {A V(t) + B} } = 1 \]
+
+Hacemos el reemplazo $ U(t) = A V(t) + B $, $ U'(t) = A V'(t) $, luego:
+
+\[ V'(t) = { U'(t) \over A } \Rightarrow { U'(t) \over A U(t) } = 1 \Rightarrow { U'(t) \over U(t) } = A \Rightarrow { \int {U'(t) \over U(t)} } = A t + C \]
+
+Ahora, sabiendo que $ \int { {f'(x) \over f(x)} dx } = \ln (f(x))  $, vemos que:
+
+\[ \ln (U(t)) = A t + C  \Rightarrow U(t) = e^{A t + C} = A V(t) + B \]
+\[ \Rightarrow V(t) = {1 \over A} ( e^{At + C} - B ) = ({ e^C \over A }e^{At}) - { B \over A } \]
+
+Tomando $ c^1 = { e^C \over A } $ y reemplazando $ A $ y $ B $ obtenemos:
+
+\[ c^1 e^{-t \over \tau_m } - { {( R_m I_e + E_L ) \over \tau_m } \over {-1 \over \tau_m } } = c^1 e^{-t \over \tau_m } + R_m I_e + E_L \]
+
+Ahora necesitamos conocer el valor de $ c^1 $. Esto lo podemos hacer ya que conocemos el valor inicial en $ t = 0 $:
+
+\[ c^1 e^{ -t \over \tau_m } + R_m I_e + E_L = -65 \Rightarrow c^1 - 65 = R_m I_e - 65 \Rightarrow c^1 = R_m I_e \]
+
+Reemplazando, obtenemos:
+
+\[ V_m(t) = (R_m I_e) e^{-t \over \tau_m} + R_m I_e + E_L = (R_m I_e) (e^{-t \over \tau_m} + 1) + E_L \]
+
+\end{document}
