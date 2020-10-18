@@ -1,8 +1,8 @@
-\documentclass{article}
+\documentclass [a4paper,12pt,oneside,final]{article}
+\usepackage[left=15mm,top=15mm,right=15mm,bottom=20mm]{geometry}
 \usepackage{tikz}
 \usepackage{float}
 \usetikzlibrary{arrows,positioning,shapes.geometric}
-\setlength{\headsep}{5pt}
 
 \title{%
 Redes Neuronales \\
@@ -40,9 +40,18 @@ Donde:
 
 \subsection{Parámetros}
 
-Se considerarán los siguientes valores para los parámetros:
+Los parámetros $\alpha$, $\beta$, $\gamma$ y $\delta$ del modelo de Lotka-Volterra representan:
 
+\begin{itemize}
+    \item{$\alpha$: Tasa de natalidad de las presas}
+    \item{$\beta$: Tasa de mortalidad de las presas}
+    \item{$\gamma$: Tasa de natalidad de los depredadores}
+    \item{$\delta$: Tasa de mortalidad de los depredadores}
+\end{itemize}
+
+Se considerarán los siguientes valores para los parámetros:
 \[ \alpha = 0.1 \qquad \beta = 0.02 \qquad \gamma = 0.3 \qquad \delta = 0.01 \]
+
 
 \section{Diagrama de flujo}
 
@@ -50,7 +59,7 @@ Para comprender el comportamiento del modelo, debemos comenzar por entender su f
 Podemos considerar 4 diferentes estados:
 
 \begin{center}
-\begin{tikzpicture}[>=latex']
+\begin{tikzpicture}[>=latex' ]
         \tikzset{block/.style={draw,
                 shape=rectangle,
                 align=center,
@@ -77,46 +86,35 @@ Podemos considerar 4 diferentes estados:
 \end{tikzpicture}
 \end{center}
 
-Podemos ver en este diagrama que aparentemente no hay equilibro entre ambas poblaciones, por el contrario, parece que podrían caer en un ciclo y no converger en ningún valor. Para comprobar esta afirmación, vamos a utilizar otras herramientas de análisis de ODEs.
+Podemos ver en este diagrama que aparentemente no hay equilibro entre ambas poblaciones, por el contrario, parece que podrían caer en un ciclo.
 
-\section{Comprensión de los parámetros}
-
-Los parámetros $\alpha$, $\beta$, $\gamma$ y $\delta$ del modelo de Lotka-Volterra representan:
-
-\begin{itemize}
-    \item{$\alpha$: Tasa de natalidad de las presas}
-    \item{$\beta$: Tasa de mortalidad de las presas}
-    \item{$\gamma$: Tasa de natalidad de los depredadores}
-    \item{$\delta$: Tasa de mortalidad de los depredadores}
-\end{itemize}
-
-\pagebreak
 \section{Diagrama de fase}
 
-El diagrama de fase es otra herramienta que nos permite entender la relación entre las poblaciones. Vamos a aproximar las tasas de crecimiento de ambas poblaciones utilizando el algoritmo de Runge Kutta de 4to orden (RK4), utilizando distintos puntos iniciales para observar las tendencias en la relación. A su vez, vamos a mostrar en conjunto los vectores que indican la dirección:
+El diagrama de fase es una herramienta que nos permite entender la relación entre las poblaciones. Vamos a aproximar las tasas de crecimiento de ambas poblaciones utilizando el algoritmo de Runge Kutta de 4to orden (RK4), utilizando distintos puntos iniciales (generados al azar utilizando la distribución uniforme) para observar las tendencias en la relación. A su vez, vamos a mostrar en conjunto los vectores que indican la dirección:
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{./diagramas/fases.png}
-  \caption{Diagrama de Fase}
+    \centering
+    \includegraphics[width=15cm,keepaspectratio]{./diagramas/fases.png}
+    \caption{Diagrama de Fase}\label{fig:fase}
 \end{figure}
 
-Los puntos iniciales fueron generados al azar, utilizando la distribución uniforme.
-
-Podemos observar que todos siguen la dirección marcada por el campo de vectores y que en ninguno de los casos las poblaciones se estabilizan, por el contrario, siguen un ciclo. Para confirmar esto, vamos a aproximar la evolución a través del tiempo de nuestro modelo.
+Podemos observar en el grafico \ref{fig:fase} que todos siguen la dirección marcada por el campo de vectores y que en ninguno de los casos las poblaciones se estabilizan, por el contrario, siguen un ciclo.
 
 
-\pagebreak
 \section{Evolución a través del tiempo}
 
 Buscamos una solución aproximada (nuevamente usando RK4) utilizando un punto inicial $(40, 9)$ y valores de $t$ en $(0, 200)$. El grafico resultante es:
 
-
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{./diagramas/evolucion.png}
-  \caption{Evolución}
+    \centering
+    \includegraphics[width=15cm,keepaspectratio]{./diagramas/evolucion.png}
+    \caption{Evolución}\label{fig:time}
 \end{figure}
 
-Podemos observar que el crecimiento de ambas poblaciones se corresponde con el descripto en el diagrama de flujo antes mencionado. Además se verifica el planteo del punto anterior, el modelo no parece estabilizarse en ningún punto, si no que fluctua entre ciertos valores a través del tiempo.
+Podemos observar en la figura \ref{fig:time} que el crecimiento de ambas poblaciones se corresponde con el descripto en el diagrama de flujo antes mencionado. Además, el modelo no parece estabilizarse en ningún punto, si no que varía constantemente a través del tiempo.
 
+\section{Conclusión}
+
+Se utilizó el método de Runge-Kutta de 4to Orden para aproximar el comportamiento del modelo. Se vió que para los parámetros elegidos el modelo parece no ser estable, es decir que parece no tener puntos para los cuales los valores de las poblaciones se estabilizan. Por otro lado, también se logró comprender distintas herramientas disponibles a la hora de analizar modelos descritos como ODEs como el campo de vectores y una aproximación a través del tiempo.
 
 \end{document}
