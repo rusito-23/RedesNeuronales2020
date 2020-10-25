@@ -8,3 +8,11 @@ pandas
 matplotlib
 autoclass
 seaborn
+
+torch
+torchvision
+sklearn
+
+mnist
+tqdm
+scikit-image
